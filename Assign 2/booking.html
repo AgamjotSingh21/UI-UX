@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Your Trip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        header {
+            background: #008cba;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        form {
+            max-width: 500px;
+            margin:auto;
+            margin-top: 20px;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 15px;
+            background: #008cba;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+    <h1>Booking Form</h1>
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="packages.html">Packages</a> |
+        <a href="booking.html">Booking</a> |
+        <a href="gallery.html">Gallery</a> |
+        <a href="about.html">About Us</a>
+    </nav>
+</header>
+
+    <form>
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="dates">Travel Dates:</label>
+        <input type="date" id="dates" name="dates" required>
+
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" required>
+
+        <label for="package">Select Package:</label>
+        <select id="package" name="package">
+            <option value="beach">Beach Paradise</option>
+            <option value="adventure">Adventure Trek</option>
+            <option value="europe">European Delight</option>
+        </select>
+
+        <button type="submit">Book Now</button>
+    </form>
+</body>
+
+</html>

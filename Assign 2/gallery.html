@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #008cba;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .caption {
+            text-align: center;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Travel Gallery</h1>
+        <nav>
+            <a href="index.html">Home</a> 
+            <a href="packages.html">Packages</a> 
+            <a href="booking.html">Booking</a> 
+            <a href="gallery.html">Gallery</a> 
+            <a href="about.html">About Us</a>
+        </nav>
+    </header>
+
+    <div class="gallery">
+        <div>
+            <img src="images/hadahaa-island-maldives.webp" alt="Maldives Beach">
+            <p class="caption">Maldives Paradise</p>
+        </div>
+        <div>
+            <img src="images/langtang-valley-trekking-nepal.webp" alt="Nepal Mountains">
+            <p class="caption">Himalayan Trek</p>
+        </div>
+        <div>
+            <img src="images/paris-france-seen-from-above.webp" alt="Paris Eiffel Tower">
+            <p class="caption">Paris, France</p>
+        </div>
+        <div>
+            <img src="images/bhutan.webp" alt="Bhutan Monastery">
+            <p class="caption">Bhutan</p>
+        </div>
+    </div>
+</body>
+
+</html>
