@@ -40,17 +40,3 @@ A simple personal **bio website** that shares background details, technical skil
 ```
 
 ***
-
-## 🚀 How to Run
-
-1. Clone this repository:  
-   ```bash
-   git clone https://github.com/your-username/bio-website.git
-   ```
-
-2. Open the project folder:  
-   ```bash
-   cd bio-website
-   ```
-
-3. Open `bio.html` in your browser.
