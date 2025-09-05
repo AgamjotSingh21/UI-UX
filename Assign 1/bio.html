@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PERSONAL PORTFOLIO PAGE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: wheat;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: #ffcc00;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        h2 {
+            color: #004080;
+            margin-top: 40px;
+            border-bottom: 2px solid #004080;
+            padding-bottom: 5px;
+            width: fit-content;
+        }
+
+        section {
+            padding: 20px;
+            margin: 0;
+            background-color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #about img {
+            display: block;
+            margin: 15px auto;
+            border-radius: 20%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #aaa;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        thead {
+            background-color: #004080;
+            color: white;
+        }
+
+        #SKILLS ul {
+            padding-left: 0;
+        }
+
+        #SKILLS li {
+            position: relative;
+            list-style-type: armenian;
+            list-style-position: inside;
+            color: #004080;
+        }
+
+        #SKILLS li::marker {
+
+            color: crimson
+        }
+
+        #projects ol {
+            padding-left: 2%;
+        }
+
+        #projects a {
+            color: darkblue;
+            text-decoration: wavy;
+        }
+
+        #projects a:hover {
+            text-decoration: underline;
+        }
+
+        #contact a {
+            color: darkblue;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>PERSONAL PORTFOLIO PAGE</h1>
+        <p><em>Crafting New Possibilities</em></p>
+        <nav>
+            <a href="#about" class="internal_link">About Me</a>
+            <a href="#edu" class="internal_link">Education</a>
+            <a href="#SKILLS" class="internal_link">Skills</a>
+            <a href="#projects" class="internal_link">Projects</a>
+            <a href="#contact" class="internal_link">Contact Me</a>
+        </nav>
+    </header>
+    <section id="about">
+        <h2>About Me</h2>
+
+        <p>
+            I'm a passionate and detail-oriented developer with a <i>strong foundation</i> in <strong>Web Development
+            </strong> and <strong>Programming Concepts</strong>.
+            I enjoy creating clean, efficient, and visually appealing web applications using <mark>HTML</mark>,
+            <mark>CSS</mark>, <mark>JavaScript</mark>, and <mark>C/C++</mark>.
+        </p>
+        <p>
+            I am currently pursuing my <b>B.Tech</b> from <em>Thapar University</em> and aim to become a full-stack
+            developer capable of solving real-world problems through technology.
+            Outside of <u>coding</u>, I’m always learning, experimenting, and exploring new tools and frameworks to
+            sharpen my skills.
+        </p>
+        <img src="photo (1).jpg" title="My Photo" alt="Agamjot Singh" width="200" height="200">
+    </section>
+    <section id="edu">
+        <h2>Educational Qualifications</h2>
+        <section id="edu">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Degree</th>
+                        <th>Branch</th>
+                        <th>Institution</th>
+                        <th colspan="2">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2">B.Tech</td>
+                        <td rowspan="2">Computer Engineering</td>
+                        <td rowspan="2">Thapar University</td>
+                        <td>Graduation Year</td>
+                        <td> 2027</td>
+                    </tr>
+                    <tr>
+                        <td>Concurrent CGPA</td>
+                        <td> 8.3</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </section>
+
+    <SECTION id="SKILLS">
+        <h2>Skills</h2>
+        <ul>
+            <li>HTML,CSS,JavaScript</li>
+            <li>Database Management Systems</li>
+            <li>Operating Systems</li>
+            <li>C/C++</li>
+            <li>Python</li>
+        </ul>
+    </SECTION>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <ol>
+            <li><a href="https://github.com/githubharald/SimpleHTR">Handwritten Recognition</a></li>
+            <li><a href="https://github.com/adarshbalu/elderly_app">Old Age Home Management</a></li>
+            <li><a href="https://github.com/agamsaini21/aiq_qp">Air Quality Prediction</a></li>
+        </ol>
+    </section>
+
+    <section id="contact">
+        <h3>Contact Me</h3>
+        <p>Email: <a href="mailto:agamjotsingh21@gmail.com">agamjotsingh21@gmail.com</a></p>
+        <p><a href="https://github.com/AgamjotSingh21">GitHub</a></p>
+    </section>
+
+    <footer>
+        <p> &copy; Made by Agamjot Singh</p>
+    </footer>
+</body>
+
+</html>
