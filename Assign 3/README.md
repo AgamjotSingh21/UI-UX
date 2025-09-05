@@ -1,6 +1,6 @@
 # 🌟 Saturnalia 2025 Festival Website  
 
-An interactive **multi-page festival website** for Saturnalia 2025, Thapar University's annual inter-college event. This site provides information about competitions, workshops, cultural nights, bootcamps, event schedules, and registration guidelines.[1]
+An interactive **multi-page festival website** for Saturnalia 2025, Thapar University's annual inter-college event. This site provides information about competitions, workshops, cultural nights, bootcamps, event schedules, and registration guidelines.
 
 ***
 
@@ -8,7 +8,7 @@ An interactive **multi-page festival website** for Saturnalia 2025, Thapar Unive
 
 - **Home (`index.html`)**  
   - Welcome message and festival highlights  
-  - Event dates, festival overview[1]
+  - Event dates, festival overview
 
 - **Events (`events.html`)**  
   - Featured event list including:  
@@ -17,7 +17,7 @@ An interactive **multi-page festival website** for Saturnalia 2025, Thapar Unive
     - Hackathon  
     - Blockchain Bootcamp  
     - Web Dev Bootcamp  
-    - Star Night[2]
+    - Star Night
 
 - **Schedule (`schedule.html`)**  
   - 3-Day event timetable  
@@ -29,10 +29,10 @@ An interactive **multi-page festival website** for Saturnalia 2025, Thapar Unive
 
 - **Registration (`register.html`)**  
   - Instructions and form for signing up for multiple events  
-  - Team/individual participation details[4]
+  - Team/individual participation details
 
 - **Gallery (`gallery.html`)**  
-  - Photo highlights of past Saturnalia events[5]
+  - Photo highlights of past Saturnalia events
 
 ***
 
@@ -44,7 +44,7 @@ An interactive **multi-page festival website** for Saturnalia 2025, Thapar Unive
 ✔️ Easy navigation across pages  
 ✔️ FAQ section for immediate information  
 ✔️ Certification and fee policies clearly listed  
-✔️ Embedded contact channels (email, Instagram)[4][1]
+✔️ Embedded contact channels (email, Instagram)
 
 ***
 
@@ -82,4 +82,5 @@ An interactive **multi-page festival website** for Saturnalia 2025, Thapar Unive
    ```
 
 3. Open `index.html` in your browser.  
+
 
