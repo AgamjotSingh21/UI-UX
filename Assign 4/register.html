@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Saturnalia</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f2f5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2em;
+    }
+
+
+    nav {
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #4e54c8;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      background-color: #f2f2f2;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    form label {
+      margin-top: 15px;
+      display: block;
+      font-weight: 600;
+    }
+
+    form input[type="text"],
+    form input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    form input[type="checkbox"] {
+      margin-right: 10px;
+    }
+
+    button {
+      background-color: #4e54c8;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #3b3fc5;
+    }
+
+    h2 {
+      color: #4e54c8;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2em;
+      }
+
+      header p {
+        font-size: 1em;
+      }
+
+      nav a {
+        margin: 10px 10px;
+        font-size: 0.9em;
+      }
+
+      main {
+        margin: 30px 20px;
+        padding: 25px 20px;
+      }
+
+      h2 {
+        font-size: 1.6em;
+      }
+
+      p {
+        font-size: 1em;
+        line-height: 1.4;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Saturnalia</h1>
+    <p>Participant Registration</p>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="events.html">Events</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="register.html">Register</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact & FAQs</a>
+  </nav>
+  <main>
+    <h2>Register Now</h2>
+    <form action="/submit-registration" method="POST">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="college">College Name</label>
+      <input type="text" id="college" name="college" required>
+
+      <label>Select Events:</label>
+      <label><input type="checkbox" name="events" value="Rap Battle"> Rap Battle</label><br>
+      <label><input type="checkbox" name="events" value="Dance Battle"> Dance Battle</label><br>
+      <label><input type="checkbox" name="events" value="Hackathon"> Hackathon</label><br>
+      <label><input type="checkbox" name="events" value="Web Dev Bootcamp"> Web Dev Bootcamp</label><br>
+      <label><input type="checkbox" name="events" value="Blockchain Bootcamp"> Blockchain Bootcamp</label><br>
+      <label><input type="checkbox" name="events" value="Star Night"> Star Night</label><br><br>
+
+      <button type="submit">Register</button>
+    </form>
+
+  </main>
+  <footer>
+    &copy; 2025 Saturnalia Fest. All rights reserved.
+  </footer>
+</body>
+
+</html>

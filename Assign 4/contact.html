@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Contact - Saturnalia</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f0f2f5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.2em;
+    }
+
+    nav {
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      padding: 15px 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #4e54c8;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      background-color: #f2f2f2;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      color: #4e54c8;
+      margin-bottom: 15px;
+    }
+
+    #contact-info {
+      background-color: #eef2ff;
+      padding: 15px;
+      border-left: 5px solid #4e54c8;
+      margin-bottom: 20px;
+    }
+
+    .faq {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .faq .question {
+      font-weight: 600;
+      color: #4e54c8;
+    }
+
+    .faq .answer {
+      color: #333;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .faq .answer::before {
+      content: "A:";
+      font-weight: bold;
+      color: #4e54c8;
+      position: absolute;
+      left: 0;
+    }
+
+    a[href^="https"] {
+      font-style: italic;
+      color: #e91e63;
+    }
+
+    input:focus,
+    textarea:focus {
+      border: 2px solid #4e54c8;
+      outline: none;
+    }
+
+    .social a {
+      display: inline-block;
+      margin-right: 15px;
+      color: #4e54c8;
+      font-weight: 600;
+    }
+
+    .social a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+    footer::before {
+      content: "✨ ";
+    }
+
+    footer::after {
+      content: " ✨";
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2em;
+      }
+
+      header p {
+        font-size: 1em;
+      }
+
+      nav a {
+        margin: 10px 10px;
+        font-size: 0.9em;
+      }
+
+      main {
+        margin: 30px 20px;
+        padding: 25px 20px;
+      }
+
+      h2 {
+        font-size: 1.6em;
+      }
+
+      p {
+        font-size: 1em;
+        line-height: 1.4;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Saturnalia</h1>
+    <p>Contact & FAQs</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="events.html">Events</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="register.html">Register</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact & FAQs</a>
+  </nav>
+
+  <main>
+
+    <h2>Contact Us</h2>
+    <div id="contact-info">
+      <p>Email: saturnalia@college.edu</p>
+      <p>Phone: +91 98765 43210</p>
+    </div>
+
+    <div class="social">
+      <a href="https://facebook.com" target="_blank">Facebook</a>
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+      <a href="#">Twitter</a>
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq">
+      <div class="question">Q: Can students from other colleges participate?</div>
+      <div class="answer">Yes, it's open to all college students.</div>
+    </div>
+
+    <div class="faq">
+      <div class="question">Q: Is there any registration fee?</div>
+      <div class="answer">Yes, ₹1000 per team or ₹400 per head for outside participants. Free for Thapar students.</div>
+    </div>
+
+    <div class="faq">
+      <div class="question">Q: Will participation certificates be provided?</div>
+      <div class="answer">Yes, to all valid participants.</div>
+    </div>
+
+    <div class="faq">
+      <div class="question">Q: How do I register for multiple events?</div>
+      <div class="answer">You can select multiple events on the registration form.</div>
+    </div>
+
+    <div class="faq">
+      <div class="question">Q: Are team events allowed?</div>
+      <div class="answer">Yes, some events are team-based. Check event details.</div>
+    </div>
+
+    <div class="faq">
+      <div class="question">Q: What is the venue for Saturnalia 2025?</div>
+      <div class="answer">All events are inside Thapar Campus. Follow our Instagram for updates.</div>
+    </div>
+
+    <div class="faq">
+      <div class="question">Q: Whom can I contact for more information?</div>
+      <div class="answer">Contact via Instagram or email at saturnalia@thapar.edu.</div>
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Saturnalia Fest. All rights reserved.
+  </footer>
+</body>
+
+</html>
