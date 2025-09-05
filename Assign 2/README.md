@@ -64,19 +64,5 @@ A simple **multipage travel agency website** built with HTML and CSS. The site s
 
 ---
 
-## 🚀 How to Run  
 
-1. Clone this repository:  
-   ```bash
-   git clone https://github.com/your-username/travel-agency-website.git
-   ```  
-
-2. Open the project folder:  
-   ```bash
-   cd travel-agency-website
-   ```  
-
-3. Open `index.html` in your browser.  
-
----
 
