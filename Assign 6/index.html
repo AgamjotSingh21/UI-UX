@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Agency - Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #008cba;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white;
+        }
+        .banner {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        section {
+            padding: 20px;
+        }
+        nav a.active {
+            font-weight: bold;
+            color: #ff9900;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to ExploreWorld Travels</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="packages.html">Packages</a>
+            <a href="booking.html">Booking</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="about.html">About Us</a>
+        </nav>
+    </header>
+    <img src="images/france.webp" alt="Travel Banner" class="banner">
+    <section>
+        <h2>Discover the World with Us</h2>
+        <p>
+            We offer the best travel experiences to exotic destinations worldwide. Whether you want
+            a peaceful beach holiday, an adventurous trek, or a luxurious city escape, we have
+            something for everyone!
+        </p>
+        <h3>Travel Tips</h3>
+        <ul>
+            <li>Always carry a copy of your important documents.</li>
+            <li>Pack light and smart for more flexibility.</li>
+            <li>Learn a few words of the local language.</li>
+            <li>Keep an emergency kit with you.</li>
+        </ul>
+    </section>
+    <footer>&copy; ExploreWorld Travels </footer>
+    <script>
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
