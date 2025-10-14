@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+        header {
+            background: #008cba;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white;
+        }
+        .social a {
+            margin: 10px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        nav a.active {
+            font-weight: bold;
+            color: #ff9900;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>About Us</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="packages.html">Packages</a>
+            <a href="booking.html">Booking</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="about.html">About Us</a>
+        </nav>
+    </header>
+    <p>
+        <em>For over 15 years, ExploreWorld Travels has been turning travel dreams into reality. </em> <br>
+        <b>We specialize in crafting personalized journeys that match your interests, pace, and style. </b> <br>
+    </p>
+    <p>
+        With expertly curated packages, knowledgeable local guides, and world-class service,
+        we ensure every trip is smooth, enriching, and unforgettable.
+        Whether you’re seeking adventure, relaxation, or cultural discovery,
+        ExploreWorld Travels is your trusted partner in exploration.
+    </p>
+    <h3>Contact Us</h3>
+    <p>Email: exploreworld@gmail.com</p>
+    <p>Phone: +91 98345 67890</p>
+    <div class="social">
+        <h3>Follow Us:</h3>
+        <a href="#">Facebook</a> |
+        <a href="#">Instagram</a> |
+        <a href="#">Twitter</a>
+    </div>
+    <script>
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            if (link.href === window.location.href) {
+                link.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
