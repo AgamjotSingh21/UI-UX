@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Personal Productivity Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --bg-alt: #020617;
+            --card-bg: #020617;
+            --accent: #38bdf8;
+            --accent-soft: rgba(56, 189, 248, 0.12);
+            --accent-strong: rgba(56, 189, 248, 0.3);
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --border: #1f2937;
+            --danger: #f97373;
+            --danger-soft: rgba(248, 113, 113, 0.15);
+            --success: #4ade80;
+            --success-soft: rgba(74, 222, 128, 0.12);
+            --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.8);
+            --radius-lg: 18px;
+            --radius-full: 999px;
+            --input-bg: #020617;
+            --input-border: #1f2937;
+            --input-focus: #38bdf8;
+            --nav-height: 64px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+            background: radial-gradient(circle at top, #1e293b 0, #020617 45%, #020617 100%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(16px);
+            background: linear-gradient(to right, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9));
+            border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+        }
+
+        .topbar {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 16px;
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            font-size: 18px;
+        }
+
+        .logo-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 14px;
+            background: radial-gradient(circle at 30% 30%, #38bdf8, #0369a1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.8);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+        }
+
+        .nav-link {
+            border: none;
+            background: transparent;
+            padding: 8px 14px;
+            border-radius: 999px;
+            color: var(--muted);
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.18s ease-out;
+            white-space: nowrap;
+        }
+
+        .nav-link span.dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.5);
+        }
+
+        .nav-link.active {
+            background: radial-gradient(circle at top, rgba(56, 189, 248, 0.3), rgba(8, 47, 73, 0.95));
+            color: #e5f2ff;
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.7);
+        }
+
+        .nav-link.active span.dot {
+            background: #22c55e;
+        }
+
+        main {
+            flex: 1;
+            padding: 18px 16px 32px;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.97));
+            border-radius: var(--radius-lg);
+            padding: 16px 16px 14px;
+            border: 1px solid rgba(30, 64, 175, 0.7);
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: -60%;
+            background: radial-gradient(circle at top, rgba(56, 189, 248, 0.1), transparent 55%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h2 span.accent-pill {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .muted {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .dashboard-header {
+            display: grid;
+            grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .dashboard-main {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr);
+            gap: 16px;
+            align-items: start;
+        }
+
+        .thought-text {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-top: 4px;
+            margin-bottom: 8px;
+        }
+
+        .thought-day {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+        }
+
+        .streak-main {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .streak-number {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .streak-label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .streak-subtext {
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        form label {
+            display: block;
+            font-size: 12px;
+            margin-top: 8px;
+            margin-bottom: 3px;
+            color: var(--muted);
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 7px 9px;
+            border-radius: 10px;
+            border: 1px solid var(--input-border);
+            background: var(--input-bg);
+            color: var(--text);
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(148, 163, 184, 0.7);
+            font-size: 12px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 50px;
+            max-height: 130px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7);
+            background: #020617;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .btn-primary,
+        .btn-ghost,
+        .btn-small,
+        .btn-danger {
+            border-radius: 999px;
+            padding: 7px 14px;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, opacity 0.12s ease;
+        }
+
+        .btn-primary {
+            background: radial-gradient(circle at top left, #38bdf8, #0ea5e9);
+            color: white;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.8);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-0.5px);
+            box-shadow: 0 14px 32px rgba(56, 189, 248, 0.95);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--muted);
+            padding-inline: 10px;
+        }
+
+        .btn-ghost:hover {
+            background: rgba(15, 23, 42, 0.8);
+            color: var(--text);
+        }
+
+        .btn-small {
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--muted);
+            padding: 4px 9px;
+            font-size: 11px;
+            border-radius: 999px;
+            border: 1px solid rgba(30, 64, 175, 0.6);
+        }
+
+        .btn-small:hover {
+            background: rgba(30, 64, 175, 0.9);
+            color: #e5f2ff;
+        }
+
+        .btn-danger {
+            background: var(--danger-soft);
+            color: #fecaca;
+            border-radius: 999px;
+            padding-inline: 11px;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: #111827;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .hint-text {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .tasks-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .tasks-header-left h2 {
+            margin-bottom: 2px;
+        }
+
+        .tasks-subtitle {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: flex-end;
+        }
+
+        .filter-control {
+            min-width: 80px;
+        }
+
+        .filter-search {
+            min-width: 140px;
+        }
+
+        .filter-search input {
+            padding-left: 24px;
+        }
+
+        .filter-search-wrapper {
+            position: relative;
+        }
+
+        .filter-search-icon {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 11px;
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 380px;
+            overflow: auto;
+            padding-right: 4px;
+            margin-top: 4px;
+        }
+
+        .tasks-empty {
+            font-size: 12px;
+            color: var(--muted);
+            padding: 14px 4px 10px;
+            text-align: center;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 9px 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(30, 64, 175, 0.6);
+            background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 1));
+        }
+
+        .task-main {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .task-checkbox {
+            margin-top: 3px;
+        }
+
+        .task-checkbox input {
+            width: 15px;
+            height: 15px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-title-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2px;
+            flex-wrap: wrap;
+        }
+
+        .task-title {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .task-title.completed {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+
+        .task-badge {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            border: 1px solid rgba(30, 64, 175, 0.7);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .priority-low {
+            border-color: rgba(74, 222, 128, 0.6);
+            color: #bbf7d0;
+        }
+
+        .priority-medium {
+            border-color: rgba(56, 189, 248, 0.7);
+            color: #bae6fd;
+        }
+
+        .priority-high {
+            border-color: rgba(248, 113, 113, 0.9);
+            color: #fecaca;
+        }
+
+        .freq-badge {
+            border-color: rgba(129, 140, 248, 0.7);
+            color: #c7d2fe;
+        }
+
+        .task-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 3px;
+        }
+
+        .task-category-pill {
+            padding: 1px 7px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px dashed rgba(107, 114, 128, 0.8);
+            font-size: 11px;
+        }
+
+        .task-desc {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .task-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-end;
+        }
+
+        .task-reminder-chip {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: rgba(8, 47, 73, 0.9);
+            color: #e0f2fe;
+            border: 1px solid rgba(56, 189, 248, 0.7);
+        }
+
+        .history-card {
+            max-height: 470px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .history-table-wrapper {
+            margin-top: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(31, 41, 55, 0.9);
+            overflow: hidden;
+            background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 1));
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 180px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        thead {
+            background: rgba(15, 23, 42, 0.98);
+            border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+        }
+
+        th,
+        td {
+            padding: 6px 8px;
+            text-align: left;
+            border-bottom: 1px solid rgba(30, 64, 175, 0.4);
+            white-space: nowrap;
+        }
+
+        th {
+            font-weight: 500;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        tbody tr:hover {
+            background: rgba(15, 23, 42, 1);
+        }
+
+        .history-scroll {
+            flex: 1;
+            overflow: auto;
+        }
+
+        .history-empty {
+            font-size: 12px;
+            color: var(--muted);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .goals-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr);
+            gap: 16px;
+            align-items: start;
+        }
+
+        .goals-list {
+            max-height: 380px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 4px;
+            margin-top: 4px;
+        }
+
+        .goal-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(30, 64, 175, 0.7);
+            background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 1));
+        }
+
+        .goal-text {
+            font-size: 13px;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 2fr);
+            gap: 16px;
+            align-items: start;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .profile-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 16px;
+            background: radial-gradient(circle at top, #38bdf8, #0369a1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 12px 28px rgba(56, 189, 248, 0.8);
+        }
+
+        .profile-name {
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        .profile-bio-text {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .profile-quote {
+            font-size: 13px;
+            margin-top: 8px;
+            padding: 10px 11px;
+            border-radius: 14px;
+            background: rgba(15, 23, 42, 0.96);
+            border: 1px solid rgba(30, 64, 175, 0.9);
+        }
+
+        .profile-quote span {
+            font-size: 11px;
+            color: var(--muted);
+            display: block;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 40;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 360px;
+            padding: 16px;
+        }
+
+        .modal h2 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .modal p {
+            font-size: 13px;
+            margin-top: 6px;
+            color: var(--muted);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+            gap: 8px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-main {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .goals-layout,
+            .profile-layout {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .dashboard-header {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        @media (max-width: 720px) {
+            .topbar {
+                flex-direction: column;
+                align-items: stretch;
+                height: auto;
+                padding-block: 10px;
+            }
+
+            nav {
+                align-self: center;
+                max-width: 100%;
+                overflow-x: auto;
+            }
+
+            main {
+                padding-inline: 10px;
+            }
+
+            .tasks-list {
+                max-height: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding-inline: 12px;
+            }
+
+            .filters {
+                justify-content: flex-start;
+            }
+
+            .tasks-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-row,
+            .form-row-3 {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="topbar">
+            <div class="logo">
+                <div class="logo-badge">P</div>
+                <div>
+                    <div>Personal Dashboard</div>
+                    <div class="muted" style="font-size:11px;">Daily · Weekly · Monthly Tasks</div>
+                </div>
+            </div>
+            <nav>
+                <button class="nav-link active" data-page="dashboard">
+                    <span class="dot"></span>
+                    Dashboard
+                </button>
+                <button class="nav-link" data-page="history">
+                    <span class="dot"></span>
+                    History
+                </button>
+                <button class="nav-link" data-page="goals">
+                    <span class="dot"></span>
+                    Goals
+                </button>
+                <button class="nav-link" data-page="profile">
+                    <span class="dot"></span>
+                    Profile
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="page-dashboard" class="page active">
+            <div class="dashboard-header">
+                <div class="card thought-card">
+                    <h2>Thought of the Day <span class="accent-pill">auto</span></h2>
+                    <div class="thought-text" id="thought-text"></div>
+                    <div class="thought-day" id="thought-day"></div>
+                </div>
+                <div class="card streak-card">
+                    <h2>Streak <span class="accent-pill">live</span></h2>
+                    <div class="streak-main">
+                        <div class="streak-number" id="streak-count">0</div>
+                        <div class="streak-label">day streak</div>
+                    </div>
+                    <div class="streak-subtext">A day counts if you complete 4+ tasks.</div>
+                </div>
+            </div>
+
+            <div class="dashboard-main">
+                <section class="card add-task-card">
+                    <h2>Add / Edit Task <span class="accent-pill">tasks</span></h2>
+                    <form id="task-form">
+                        <label for="task-title">Title</label>
+                        <input id="task-title" type="text" placeholder="e.g. DSA practice, gym session" required>
+
+                        <label for="task-desc">Description</label>
+                        <textarea id="task-desc" placeholder="Optional details about this task"></textarea>
+
+                        <div class="form-row">
+                            <div>
+                                <label for="task-priority">Priority</label>
+                                <select id="task-priority">
+                                    <option value="Medium" selected>Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="task-category">Category</label>
+                                <input id="task-category" type="text" placeholder="e.g. Study, Health, Work">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div>
+                                <label for="task-frequency">Frequency</label>
+                                <select id="task-frequency">
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                            <div></div>
+                        </div>
+
+                        <label>Single-time reminder (optional)</label>
+                        <div class="form-row">
+                            <div>
+                                <input id="task-reminder-date" type="date">
+                            </div>
+                            <div>
+                                <input id="task-reminder-time" type="time">
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <div>
+                                <button type="submit" class="btn-primary" id="task-submit-btn">
+                                    <span id="task-submit-label">Add task</span>
+                                </button>
+                                <button type="button" class="btn-ghost" id="task-cancel-edit"
+                                    style="display:none;">Cancel edit</button>
+                            </div>
+                            <div class="hint-text">
+                                Mark tasks as complete to build history and streak.
+                            </div>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="card tasks-card">
+                    <div class="tasks-header">
+                        <div class="tasks-header-left">
+                            <h2>Tasks <span class="accent-pill">list</span></h2>
+                            <div class="tasks-subtitle">Filter by frequency, priority, category, status or search.</div>
+                        </div>
+                        <div class="filters">
+                            <div class="filter-control">
+                                <select id="filter-frequency">
+                                    <option value="All">All freq</option>
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <select id="filter-priority">
+                                    <option value="All">All priority</option>
+                                    <option value="High">High</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <select id="filter-category">
+                                    <option value="All">All categories</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <select id="filter-status">
+                                    <option value="All">All status</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                            </div>
+                            <div class="filter-control filter-search">
+                                <div class="filter-search-wrapper">
+                                    <span class="filter-search-icon">🔍</span>
+                                    <input id="filter-search-input" type="text" placeholder="Search title">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tasks-list" id="tasks-list"></div>
+                </section>
+            </div>
+        </section>
+
+        <section id="page-history" class="page">
+            <div class="card history-card">
+                <h2>History <span class="accent-pill">completed</span></h2>
+                <div class="muted" style="font-size:11px;margin-top:4px;">
+                    Each time you complete a task, it appears here with timestamp.
+                </div>
+                <div class="history-table-wrapper">
+                    <div class="history-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Task</th>
+                                    <th>Category</th>
+                                    <th>Priority</th>
+                                    <th>Frequency</th>
+                                    <th>Completed at</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-goals" class="page">
+            <div class="goals-layout">
+                <section class="card">
+                    <h2>Goals <span class="accent-pill">input</span></h2>
+                    <div class="muted" style="font-size:11px;margin-top:4px;">
+                        Just write your goals here. No progress tracking, only a list.
+                    </div>
+                    <form id="goal-form" style="margin-top:10px;">
+                        <label for="goal-input">New goal</label>
+                        <textarea id="goal-input"
+                            placeholder="e.g. Reach 1700 rating on Codeforces, lose 3kg, read 10 books"></textarea>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Add goal</button>
+                            <div class="hint-text">Goals are saved locally on this device.</div>
+                        </div>
+                    </form>
+                </section>
+                <section class="card">
+                    <h2>Goals List <span class="accent-pill">stored</span></h2>
+                    <div class="goals-list" id="goals-list"></div>
+                </section>
+            </div>
+        </section>
+
+        <section id="page-profile" class="page">
+            <div class="profile-layout">
+                <section class="card">
+                    <h2>Profile <span class="accent-pill">you</span></h2>
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="profile-avatar">P</div>
+                        <div>
+                            <div class="profile-name" id="profile-name-display">Your name</div>
+                            <div class="profile-bio-text" id="profile-bio-display">Add a short bio about yourself.</div>
+                        </div>
+                    </div>
+                    <div class="profile-quote">
+                        <span>Your quote</span>
+                        <div>"Do what you have to do , until you can do what you want to do"</div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2>Edit Profile <span class="accent-pill">edit</span></h2>
+                    <form id="profile-form" style="margin-top:6px;">
+                        <label for="profile-name-input">Name</label>
+                        <input id="profile-name-input" type="text" placeholder="Enter your name">
+
+                        <label for="profile-bio-input">Bio</label>
+                        <textarea id="profile-bio-input"
+                            placeholder="Short description about you, your focus, or goals"></textarea>
+
+                        <div class="form-actions" style="margin-top:10px;">
+                            <button type="button" class="btn-primary" id="profile-save-btn">Save changes</button>
+                            <div class="hint-text">Profile is saved in this browser only.</div>
+                        </div>
+                    </form>
+                </section>
+
+            </div>
+        </section>
+    </main>
+
+    <div id="weekly-summary-backdrop" class="modal-backdrop hidden">
+        <div class="card modal">
+            <h2>Last Week Summary</h2>
+            <p id="weekly-summary-text"></p>
+            <div class="modal-actions">
+                <button class="btn-primary" id="weekly-summary-close">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEYS = {
+            tasks: "pd_tasks",
+            history: "pd_history",
+            goals: "pd_goals",
+            profile: "pd_profile",
+            dailyCounts: "pd_daily_counts",
+            weeklySummarySeen: "pd_weekly_summary_seen",
+            nextTaskId: "pd_next_task_id",
+            nextGoalId: "pd_next_goal_id",
+            resetMeta: "pd_reset_meta"
+        };
+
+        let tasks = [];
+        let historyEntries = [];
+        let goals = [];
+        let profile = { name: "", bio: "" };
+        let dailyCounts = {};
+        let weeklySummarySeenDate = null;
+        let resetMeta = {};
+        let editingTaskId = null;
+
+
+        function loadState() {
+            try {
+                tasks = JSON.parse(localStorage.getItem(STORAGE_KEYS.tasks) || "[]");
+                historyEntries = JSON.parse(localStorage.getItem(STORAGE_KEYS.history) || "[]");
+                goals = JSON.parse(localStorage.getItem(STORAGE_KEYS.goals) || "[]");
+                profile = JSON.parse(localStorage.getItem(STORAGE_KEYS.profile) || "{}");
+
+                dailyCounts = JSON.parse(localStorage.getItem(STORAGE_KEYS.dailyCounts) || "{}");
+                weeklySummarySeenDate = localStorage.getItem(STORAGE_KEYS.weeklySummarySeen);
+                resetMeta = JSON.parse(localStorage.getItem(STORAGE_KEYS.resetMeta) || "{}");
+                if (!Array.isArray(tasks)) tasks = [];
+                if (!Array.isArray(historyEntries)) historyEntries = [];
+                if (!Array.isArray(goals)) goals = [];
+                if (!profile || typeof profile !== "object") profile = { name: "", bio: "" };
+                if (!dailyCounts || typeof dailyCounts !== "object") dailyCounts = {};
+                if (!resetMeta || typeof resetMeta !== "object") resetMeta = {};
+
+
+            } catch (e) {
+                tasks = [];
+                historyEntries = [];
+                goals = [];
+                profile = { name: "", bio: "" };
+                dailyCounts = {};
+                weeklySummarySeenDate = null;
+            }
+        }
+
+        function saveTasks() {
+            localStorage.setItem(STORAGE_KEYS.tasks, JSON.stringify(tasks));
+        }
+
+        function saveHistory() {
+            localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(historyEntries));
+        }
+
+        function saveGoals() {
+            localStorage.setItem(STORAGE_KEYS.goals, JSON.stringify(goals));
+        }
+
+        function saveProfile() {
+            localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify(profile));
+        }
+
+        function saveDailyCounts() {
+            localStorage.setItem(STORAGE_KEYS.dailyCounts, JSON.stringify(dailyCounts));
+        }
+
+        function saveResetMeta() {
+            localStorage.setItem(STORAGE_KEYS.resetMeta, JSON.stringify(resetMeta));
+        }
+
+        function setWeeklySummarySeen(dateStr) {
+            weeklySummarySeenDate = dateStr;
+            localStorage.setItem(STORAGE_KEYS.weeklySummarySeen, dateStr);
+        }
+
+        function getNextId(keyName) {
+            let current = parseInt(localStorage.getItem(keyName) || "1", 10);
+            const id = current;
+            localStorage.setItem(keyName, String(current + 1));
+            return id;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return "";
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function formatDateTimeLocal(date) {
+            if (!date) return "";
+            const d = new Date(date);
+            if (Number.isNaN(d.getTime())) return "";
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, "0");
+            const day = String(d.getDate()).padStart(2, "0");
+            const hh = String(d.getHours()).padStart(2, "0");
+            const mm = String(d.getMinutes()).padStart(2, "0");
+            return `${y}-${m}-${day} ${hh}:${mm}`;
+        }
+
+        function todayDateStr() {
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = String(now.getMonth() + 1).padStart(2, "0");
+            const d = String(now.getDate()).padStart(2, "0");
+            return `${y}-${m}-${d}`;
+        }
+
+        function daysAgo(date, n) {
+            const d = new Date(date);
+            d.setDate(d.getDate() - n);
+            return d;
+        }
+
+        function dateStrFromDate(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, "0");
+            const d = String(date.getDate()).padStart(2, "0");
+            return `${y}-${m}-${d}`;
+        }
+
+        function getMonday(date) {
+            const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            const day = d.getDay();
+            const diff = (day === 0 ? -6 : 1) - day;
+            d.setDate(d.getDate() + diff);
+            return d;
+        }
+
+        function ensureResetsForRecurringTasks() {
+            const now = new Date();
+            const todayStr = dateStrFromDate(now);
+            const thisMonday = getMonday(now);
+            const thisMondayStr = dateStrFromDate(thisMonday);
+            const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+
+            let changedTasks = false;
+
+            if (!resetMeta || typeof resetMeta !== "object") {
+                resetMeta = {};
+            }
+
+            if (resetMeta.dailyDate !== todayStr) {
+                tasks.forEach(t => {
+                    if (t.frequency === "Daily") {
+                        t.completed = false;
+                    }
+                });
+                resetMeta.dailyDate = todayStr;
+                changedTasks = true;
+            }
+
+            if (resetMeta.weeklyMonday !== thisMondayStr) {
+                tasks.forEach(t => {
+                    if (t.frequency === "Weekly") {
+                        t.completed = false;
+                    }
+                });
+                resetMeta.weeklyMonday = thisMondayStr;
+                changedTasks = true;
+            }
+
+            if (resetMeta.monthKey !== monthKey) {
+                tasks.forEach(t => {
+                    if (t.frequency === "Monthly") {
+                        t.completed = false;
+                    }
+                });
+                resetMeta.monthKey = monthKey;
+                changedTasks = true;
+            }
+
+            if (changedTasks) {
+                saveTasks();
+            }
+            saveResetMeta();
+        }
+
+
+
+        function initNav() {
+            const navLinks = document.querySelectorAll(".nav-link");
+            const pages = document.querySelectorAll(".page");
+            navLinks.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const target = btn.getAttribute("data-page");
+                    navLinks.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    pages.forEach(p => {
+                        if (p.id === `page-${target}`) {
+                            p.classList.add("active");
+                        } else {
+                            p.classList.remove("active");
+                        }
+                    });
+                });
+            });
+        }
+
+        function setThoughtOfDay() {
+            const thoughts = {
+                1: "In the midst of chaos, there is also opportunity.",
+                2: "Opportunities multiply as they are seized.",
+                3: "Courage isn't having the strength to go on - it is going on when you don't have strength.",
+                4: "Waste no more time arguing what a good man should be. Be one.",
+                5: "You can't break a man the way you do a dog or a horse. The harder you beat a man, the taller he stands.",
+                6: "The more things change, the more they stay the same.",
+                0: "The only thing that can defeat power, is more power."
+            };
+            const dayNames = {
+                0: "Sunday",
+                1: "Monday",
+                2: "Tuesday",
+                3: "Wednesday",
+                4: "Thursday",
+                5: "Friday",
+                6: "Saturday"
+            };
+            const now = new Date();
+            const day = now.getDay();
+            const text = thoughts[day] || "";
+            const dayName = dayNames[day] || "";
+            const thoughtEl = document.getElementById("thought-text");
+            const dayEl = document.getElementById("thought-day");
+            if (thoughtEl) thoughtEl.textContent = text;
+            if (dayEl) dayEl.textContent = dayName;
+        }
+
+        function computeStreak() {
+            const today = new Date();
+            let streak = 0;
+            let current = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            while (true) {
+                const ds = dateStrFromDate(current);
+                const count = dailyCounts[ds] || 0;
+                if (count >= 4) {
+                    streak += 1;
+                    current = daysAgo(current, 1);
+                } else {
+                    break;
+                }
+            }
+            const el = document.getElementById("streak-count");
+            if (el) el.textContent = String(streak);
+        }
+
+        function renderProfile() {
+            const nameDisplay = document.getElementById("profile-name-display");
+            const bioDisplay = document.getElementById("profile-bio-display");
+            const avatar = document.getElementById("profile-avatar");
+            const nameInput = document.getElementById("profile-name-input");
+            const bioInput = document.getElementById("profile-bio-input");
+            const name = profile.name || "";
+            const bio = profile.bio || "";
+            if (nameDisplay) nameDisplay.textContent = name || "Your name";
+            if (bioDisplay) bioDisplay.textContent = bio || "Add a short bio about yourself.";
+            if (avatar) {
+                const initial = name ? name.trim()[0].toUpperCase() : "P";
+                avatar.textContent = initial;
+            }
+            if (nameInput && nameInput.value !== name) nameInput.value = name;
+            if (bioInput && bioInput.value !== bio) bioInput.value = bio;
+        }
+
+        function renderGoals() {
+            const list = document.getElementById("goals-list");
+            if (!list) return;
+            if (!goals.length) {
+                list.innerHTML = '<div class="history-empty">No goals yet. Add one on the left.</div>';
+                return;
+            }
+            const items = goals
+                .slice()
+                .sort((a, b) => a.id - b.id)
+                .map(
+                    g => `
+        <div class="goal-item" data-goal-id="${g.id}">
+          <div class="goal-text">${escapeHtml(g.text)}</div>
+          <button class="btn-small btn-goal-delete">Remove</button>
+        </div>
+      `
+                )
+                .join("");
+            list.innerHTML = items;
+        }
+
+        function getFilterValues() {
+            const freq = document.getElementById("filter-frequency")?.value || "All";
+            const pri = document.getElementById("filter-priority")?.value || "All";
+            const cat = document.getElementById("filter-category")?.value || "All";
+            const status = document.getElementById("filter-status")?.value || "All";
+            const search = document.getElementById("filter-search-input")?.value.trim().toLowerCase() || "";
+            return { freq, pri, cat, status, search };
+        }
+
+        function renderCategoryFilterOptions() {
+            const select = document.getElementById("filter-category");
+            if (!select) return;
+            const selected = select.value || "All";
+            const categorySet = new Set();
+            tasks.forEach(t => {
+                if (t.category && t.category.trim()) {
+                    categorySet.add(t.category.trim());
+                }
+            });
+            const options = ['<option value="All">All categories</option>'];
+            Array.from(categorySet)
+                .sort((a, b) => a.localeCompare(b))
+                .forEach(cat => {
+                    const esc = escapeHtml(cat);
+                    options.push(`<option value="${esc}">${esc}</option>`);
+                });
+            select.innerHTML = options.join("");
+            if (selected && Array.from(select.options).some(o => o.value === selected)) {
+                select.value = selected;
+            }
+        }
+
+        function renderTasks() {
+            const list = document.getElementById("tasks-list");
+            if (!list) return;
+            renderCategoryFilterOptions();
+            const filters = getFilterValues();
+            const filtered = tasks.filter(t => {
+                if (filters.freq !== "All" && t.frequency !== filters.freq) return false;
+                if (filters.pri !== "All" && t.priority !== filters.pri) return false;
+                if (filters.cat !== "All" && t.category !== filters.cat) return false;
+                if (filters.status === "Pending" && t.completed) return false;
+                if (filters.status === "Completed" && !t.completed) return false;
+                if (filters.search) {
+                    const title = (t.title || "").toLowerCase();
+                    if (!title.includes(filters.search)) return false;
+                }
+                return true;
+            });
+
+            if (!filtered.length) {
+                list.innerHTML = '<div class="tasks-empty">No tasks match your filters. Try changing them or add a task.</div>';
+                return;
+            }
+
+            const items = filtered
+                .slice()
+                .sort((a, b) => a.id - b.id)
+                .map(t => {
+                    const completedClass = t.completed ? "completed" : "";
+                    const priorityClass =
+                        t.priority === "High"
+                            ? "priority-high"
+                            : t.priority === "Low"
+                                ? "priority-low"
+                                : "priority-medium";
+                    const reminderChip = t.reminderDateTime
+                        ? `<span class="task-reminder-chip">Reminder: ${formatDateTimeLocal(t.reminderDateTime)}</span>`
+                        : "";
+                    const descBlock = t.description && t.description.trim()
+                        ? `<div class="task-desc">${escapeHtml(t.description)}</div>`
+                        : "";
+                    const category = t.category && t.category.trim() ? t.category.trim() : "No category";
+                    return `
+        <div class="task-item" data-task-id="${t.id}">
+          <div class="task-main">
+            <div class="task-checkbox">
+              <input type="checkbox" class="task-complete-checkbox"${t.completed ? " checked" : ""}>
+            </div>
+            <div class="task-info">
+              <div class="task-title-row">
+                <span class="task-title ${completedClass}">${escapeHtml(t.title)}</span>
+                <span class="task-badge ${priorityClass}">${escapeHtml(t.priority)}</span>
+                <span class="task-badge freq-badge">${escapeHtml(t.frequency)}</span>
+                ${reminderChip}
+              </div>
+              <div class="task-meta-row">
+                <span class="task-category-pill">${escapeHtml(category)}</span>
+              </div>
+              ${descBlock}
+            </div>
+          </div>
+          <div class="task-actions">
+            <button class="btn-small btn-task-edit">Edit</button>
+            <button class="btn-small btn-task-delete">Delete</button>
+          </div>
+        </div>
+      `;
+                })
+                .join("");
+
+            list.innerHTML = items;
+        }
+
+        function renderHistory() {
+            const body = document.getElementById("history-body");
+            if (!body) return;
+            if (!historyEntries.length) {
+                body.innerHTML = `
+        <tr><td colspan="5"><div class="history-empty">No completed tasks yet. Complete one on the dashboard.</div></td></tr>
+      `;
+                return;
+            }
+            const rows = historyEntries
+                .slice()
+                .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt))
+                .map(e => {
+                    return `
+        <tr>
+          <td>${escapeHtml(e.title)}</td>
+          <td>${escapeHtml(e.category || "")}</td>
+          <td>${escapeHtml(e.priority || "")}</td>
+          <td>${escapeHtml(e.frequency || "")}</td>
+          <td>${formatDateTimeLocal(e.completedAt)}</td>
+        </tr>
+      `;
+                })
+                .join("");
+            body.innerHTML = rows;
+        }
+
+        function addOrUpdateTaskFromForm() {
+            const titleEl = document.getElementById("task-title");
+            const descEl = document.getElementById("task-desc");
+            const priEl = document.getElementById("task-priority");
+            const catEl = document.getElementById("task-category");
+            const freqEl = document.getElementById("task-frequency");
+            const dateEl = document.getElementById("task-reminder-date");
+            const timeEl = document.getElementById("task-reminder-time");
+            const title = (titleEl.value || "").trim();
+            if (!title) {
+                alert("Task title is required.");
+                return;
+            }
+            const description = descEl.value || "";
+            const priority = priEl.value || "Medium";
+            const category = (catEl.value || "").trim();
+            const frequency = freqEl.value || "Daily";
+            let reminderDateTime = null;
+            const dateVal = dateEl.value;
+            const timeVal = timeEl.value;
+            if (dateVal && timeVal) {
+                const iso = `${dateVal}T${timeVal}:00`;
+                const d = new Date(iso);
+                if (!Number.isNaN(d.getTime())) {
+                    reminderDateTime = d.toISOString();
+                }
+            }
+
+            if (editingTaskId !== null) {
+                const idx = tasks.findIndex(t => t.id === editingTaskId);
+                if (idx !== -1) {
+                    tasks[idx].title = title;
+                    tasks[idx].description = description;
+                    tasks[idx].priority = priority;
+                    tasks[idx].category = category;
+                    tasks[idx].frequency = frequency;
+                    tasks[idx].reminderDateTime = reminderDateTime;
+                    if (!reminderDateTime) {
+                        tasks[idx].reminderFired = false;
+                    }
+                }
+            } else {
+                const id = getNextId(STORAGE_KEYS.nextTaskId);
+                const task = {
+                    id,
+                    title,
+                    description,
+                    priority,
+                    category,
+                    frequency,
+                    reminderDateTime,
+                    reminderFired: false,
+                    completed: false
+                };
+                tasks.push(task);
+            }
+
+            saveTasks();
+            resetTaskForm();
+            renderTasks();
+        }
+
+        function resetTaskForm() {
+            const titleEl = document.getElementById("task-title");
+            const descEl = document.getElementById("task-desc");
+            const priEl = document.getElementById("task-priority");
+            const catEl = document.getElementById("task-category");
+            const freqEl = document.getElementById("task-frequency");
+            const dateEl = document.getElementById("task-reminder-date");
+            const timeEl = document.getElementById("task-reminder-time");
+            const submitLabel = document.getElementById("task-submit-label");
+            const cancelBtn = document.getElementById("task-cancel-edit");
+            editingTaskId = null;
+            if (titleEl) titleEl.value = "";
+            if (descEl) descEl.value = "";
+            if (priEl) priEl.value = "Medium";
+            if (catEl) catEl.value = "";
+            if (freqEl) freqEl.value = "Daily";
+            if (dateEl) dateEl.value = "";
+            if (timeEl) timeEl.value = "";
+            if (submitLabel) submitLabel.textContent = "Add task";
+            if (cancelBtn) cancelBtn.style.display = "none";
+        }
+
+        function startEditTask(taskId) {
+            const t = tasks.find(x => x.id === taskId);
+            if (!t) return;
+            editingTaskId = taskId;
+            const titleEl = document.getElementById("task-title");
+            const descEl = document.getElementById("task-desc");
+            const priEl = document.getElementById("task-priority");
+            const catEl = document.getElementById("task-category");
+            const freqEl = document.getElementById("task-frequency");
+            const dateEl = document.getElementById("task-reminder-date");
+            const timeEl = document.getElementById("task-reminder-time");
+            const submitLabel = document.getElementById("task-submit-label");
+            const cancelBtn = document.getElementById("task-cancel-edit");
+            if (titleEl) titleEl.value = t.title || "";
+            if (descEl) descEl.value = t.description || "";
+            if (priEl) priEl.value = t.priority || "Medium";
+            if (catEl) catEl.value = t.category || "";
+            if (freqEl) freqEl.value = t.frequency || "Daily";
+            if (dateEl && timeEl) {
+                if (t.reminderDateTime) {
+                    const d = new Date(t.reminderDateTime);
+                    if (!Number.isNaN(d.getTime())) {
+                        const y = d.getFullYear();
+                        const m = String(d.getMonth() + 1).padStart(2, "0");
+                        const day = String(d.getDate()).padStart(2, "0");
+                        const hh = String(d.getHours()).padStart(2, "0");
+                        const mm = String(d.getMinutes()).padStart(2, "0");
+                        dateEl.value = `${y}-${m}-${day}`;
+                        timeEl.value = `${hh}:${mm}`;
+                    } else {
+                        dateEl.value = "";
+                        timeEl.value = "";
+                    }
+                } else {
+                    dateEl.value = "";
+                    timeEl.value = "";
+                }
+            }
+            if (submitLabel) submitLabel.textContent = "Update task";
+            if (cancelBtn) cancelBtn.style.display = "inline-flex";
+        }
+
+        function deleteTask(taskId) {
+            tasks = tasks.filter(t => t.id !== taskId);
+            saveTasks();
+            renderTasks();
+        }
+
+        function handleTaskCompletionToggle(taskId, completed) {
+            const t = tasks.find(x => x.id === taskId);
+            if (!t) return;
+            const wasCompleted = !!t.completed;
+            t.completed = completed;
+            saveTasks();
+            if (!wasCompleted && completed) {
+                const now = new Date();
+                historyEntries.push({
+                    id: getNextId(STORAGE_KEYS.nextTaskId + "_hist"),
+                    taskId: t.id,
+                    title: t.title,
+                    category: t.category,
+                    priority: t.priority,
+                    frequency: t.frequency,
+                    completedAt: now.toISOString()
+                });
+                saveHistory();
+                const ds = todayDateStr();
+                dailyCounts[ds] = (dailyCounts[ds] || 0) + 1;
+                saveDailyCounts();
+                computeStreak();
+                renderHistory();
+            }
+            renderTasks();
+        }
+
+        function checkReminders() {
+            const now = new Date();
+            let changed = false;
+            tasks.forEach(t => {
+                if (!t.reminderDateTime || t.reminderFired) return;
+                const reminderTime = new Date(t.reminderDateTime);
+                if (!Number.isNaN(reminderTime.getTime()) && reminderTime <= now) {
+                    alert(`Reminder: ${t.title}`);
+                    t.reminderFired = true;
+                    changed = true;
+                }
+            });
+            if (changed) {
+                saveTasks();
+                renderTasks();
+            }
+        }
+
+        function showWeeklySummaryIfNeeded() {
+            const now = new Date();
+            const day = now.getDay();
+            if (day !== 1) return;
+            const currentMonday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const currentMondayStr = dateStrFromDate(currentMonday);
+            if (weeklySummarySeenDate === currentMondayStr) return;
+            const lastWeekStart = daysAgo(currentMonday, 7);
+            const lastWeekEnd = daysAgo(currentMonday, 1);
+            const startTime = new Date(lastWeekStart.getFullYear(), lastWeekStart.getMonth(), lastWeekStart.getDate());
+            const endTime = new Date(lastWeekEnd.getFullYear(), lastWeekEnd.getMonth(), lastWeekEnd.getDate(), 23, 59, 59);
+            let completedCount = 0;
+            historyEntries.forEach(e => {
+                const d = new Date(e.completedAt);
+                if (!Number.isNaN(d.getTime()) && d >= startTime && d <= endTime) {
+                    completedCount += 1;
+                }
+            });
+            const totalActive = tasks.length;
+            const rate = totalActive > 0 ? Math.round((completedCount / totalActive) * 100) : 0;
+            const textEl = document.getElementById("weekly-summary-text");
+            if (textEl) {
+                textEl.textContent = `Last week you completed ${completedCount} task${completedCount === 1 ? "" : "s"}. Completion rate: ${rate}%.`;
+            }
+            const backdrop = document.getElementById("weekly-summary-backdrop");
+            if (backdrop) {
+                backdrop.classList.remove("hidden");
+            }
+            setWeeklySummarySeen(currentMondayStr);
+        }
+
+        function initWeeklySummaryModal() {
+            const closeBtn = document.getElementById("weekly-summary-close");
+            const backdrop = document.getElementById("weekly-summary-backdrop");
+            if (closeBtn && backdrop) {
+                closeBtn.addEventListener("click", () => {
+                    backdrop.classList.add("hidden");
+                });
+                backdrop.addEventListener("click", e => {
+                    if (e.target === backdrop) {
+                        backdrop.classList.add("hidden");
+                    }
+                });
+            }
+        }
+
+        function initTaskForm() {
+            const form = document.getElementById("task-form");
+            const cancelBtn = document.getElementById("task-cancel-edit");
+            if (form) {
+                form.addEventListener("submit", e => {
+                    e.preventDefault();
+                    addOrUpdateTaskFromForm();
+                });
+            }
+            if (cancelBtn) {
+                cancelBtn.addEventListener("click", () => {
+                    resetTaskForm();
+                });
+            }
+        }
+
+        function initTaskListEvents() {
+            const list = document.getElementById("tasks-list");
+            if (!list) return;
+            list.addEventListener("click", e => {
+                const target = e.target;
+                const item = target.closest(".task-item");
+                if (!item) return;
+                const taskId = parseInt(item.getAttribute("data-task-id"), 10);
+                if (Number.isNaN(taskId)) return;
+                if (target.classList.contains("btn-task-edit")) {
+                    startEditTask(taskId);
+                } else if (target.classList.contains("btn-task-delete")) {
+                    const confirmDelete = confirm("Delete this task? It will stay in history if it was completed before.");
+                    if (confirmDelete) {
+                        deleteTask(taskId);
+                    }
+                }
+            });
+            list.addEventListener("change", e => {
+                const target = e.target;
+                if (!target.classList.contains("task-complete-checkbox")) return;
+                const item = target.closest(".task-item");
+                if (!item) return;
+                const taskId = parseInt(item.getAttribute("data-task-id"), 10);
+                if (Number.isNaN(taskId)) return;
+                const checked = target.checked;
+                handleTaskCompletionToggle(taskId, checked);
+            });
+        }
+
+        function initFilters() {
+            const ids = ["filter-frequency", "filter-priority", "filter-category", "filter-status"];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener("change", () => {
+                        renderTasks();
+                    });
+                }
+            });
+            const searchInput = document.getElementById("filter-search-input");
+            if (searchInput) {
+                searchInput.addEventListener("input", () => {
+                    renderTasks();
+                });
+            }
+        }
+
+        function initGoalsForm() {
+            const form = document.getElementById("goal-form");
+            const input = document.getElementById("goal-input");
+            const list = document.getElementById("goals-list");
+            if (form && input) {
+                form.addEventListener("submit", e => {
+                    e.preventDefault();
+                    const text = (input.value || "").trim();
+                    if (!text) return;
+                    const id = getNextId(STORAGE_KEYS.nextGoalId);
+                    goals.push({ id, text });
+                    saveGoals();
+                    input.value = "";
+                    renderGoals();
+                });
+            }
+            if (list) {
+                list.addEventListener("click", e => {
+                    const target = e.target;
+                    if (!target.classList.contains("btn-goal-delete")) return;
+                    const item = target.closest(".goal-item");
+                    if (!item) return;
+                    const id = parseInt(item.getAttribute("data-goal-id"), 10);
+                    if (Number.isNaN(id)) return;
+                    goals = goals.filter(g => g.id !== id);
+                    saveGoals();
+                    renderGoals();
+                });
+            }
+        }
+
+        function initProfileForm() {
+            const nameInput = document.getElementById("profile-name-input");
+            const bioInput = document.getElementById("profile-bio-input");
+            const saveBtn = document.getElementById("profile-save-btn");
+
+            if (nameInput) {
+                nameInput.value = profile.name || "";
+            }
+            if (bioInput) {
+                bioInput.value = profile.bio || "";
+            }
+
+            if (saveBtn) {
+                saveBtn.addEventListener("click", () => {
+                    profile.name = nameInput ? nameInput.value || "" : "";
+                    profile.bio = bioInput ? bioInput.value || "" : "";
+                    saveProfile();
+                    renderProfile();
+                    alert("Profile saved.");
+                });
+            }
+        }
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadState();
+            ensureResetsForRecurringTasks();
+            initNav();
+            setThoughtOfDay();
+            renderProfile();
+            renderGoals();
+            renderTasks();
+            renderHistory();
+            computeStreak();
+            initTaskForm();
+            initTaskListEvents();
+            initFilters();
+            initGoalsForm();
+            initProfileForm();
+            initWeeklySummaryModal();
+            showWeeklySummaryIfNeeded();
+            setInterval(checkReminders, 30000);
+        });
+    </script>
+</body>
+
+</html>
